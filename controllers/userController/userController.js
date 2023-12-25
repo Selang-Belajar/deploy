@@ -17,6 +17,29 @@ class userController {
     // use trycatch easy handling and maintain
     try {
       await userLoginSchema.parse({ body: req.body });
+
+      // check user if exist
+      const media = await prisma.user.findFirst({
+        where: { email: req.body.email },
+      });
+
+      if (!media) {
+        return res
+          .status(400)
+          .json({ status: "error", message: "email doesn't exist" });
+      }
+
+      const password = await bcrypt.compareSync(
+        req.body.password,
+        media.password
+      );
+
+      if (!password) {
+        return res
+          .status(400)
+          .json({ status: "error", message: "password not match" });
+      }
+
       // use json for API JSON return
       return res.status(200).json({
         status: "success",
