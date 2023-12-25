@@ -6,7 +6,7 @@ const router = Router();
 
 // use userController
 const userController = require("../../controllers/userController/userController");
-const { loginPost } = userController;
+const { loginPost, registerPost } = userController;
 
 // make router get
 router.get("/register", (req, res) => {
@@ -15,5 +15,6 @@ router.get("/register", (req, res) => {
 
 // make router post
 router.post("/login", loginPost);
+router.post("/register", registerPost);
 
 module.exports = router;
