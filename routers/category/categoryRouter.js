@@ -6,7 +6,8 @@ const router = Router();
 
 // use userController
 const categoryController = require("../../controllers/categoryController/categoryController");
-const { createCategory } = categoryController;
+const { createCategory, getCategoryById } = categoryController;
 
+router.get("/category/:id", getCategoryById);
 router.post("/category", createCategory);
 module.exports = router;
