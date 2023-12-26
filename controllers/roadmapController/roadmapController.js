@@ -4,6 +4,24 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 class roadmapController {
+  static async getAllRoadmap(req, res) {
+    try {
+      const roadmap = await prisma.roadmap.findMany({});
+      return res.status(200).json({ status: "success", message: roadmap });
+    } catch (error) {
+      return res.status(200).json({ status: "success", message: error });
+    }
+  }
+  static async getRoadmapById(req, res) {
+    try {
+      const roadmap = await prisma.roadmap.findFirst({
+        where: { id: parseInt(req.params.id) },
+      });
+      return res.status(200).json({ status: "success", message: roadmap });
+    } catch (error) {
+      return res.status(200).json({ status: "success", message: error });
+    }
+  }
   static async createRoadmap(req, res) {
     try {
       const roadmap = await prisma.roadmap.create({
