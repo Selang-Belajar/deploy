@@ -4,8 +4,9 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 // use Schema
-const userRegisterSchema = require("../../schema/userRegisterSchema");
-const userLoginSchema = require("../../schema/userLoginSchema");
+const userSchema = require("../../schema/userSchema");
+// destruct Schema
+const { validateLoginSchema, validateRegisterSchema } = userSchema;
 
 // use bcrypt
 const bcrypt = require("bcrypt");
@@ -16,7 +17,7 @@ class userController {
   static async loginPost(req, res) {
     // use trycatch easy handling and maintain
     try {
-      await userLoginSchema.parse({ body: req.body });
+      await validateLoginSchema.parse({ body: req.body });
 
       // check user if exist
       const media = await prisma.user.findFirst({
@@ -60,7 +61,7 @@ class userController {
   static async registerPost(req, res) {
     try {
       // make validation form json
-      await userRegisterSchema.parse({ body: req.body });
+      await validateRegisterSchema.parse({ body: req.body });
 
       const media = await prisma.user.findFirst({
         where: { email: req.body.email },
