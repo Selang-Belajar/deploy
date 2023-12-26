@@ -4,6 +4,17 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 class categoryController {
+  static async getCategoryById(req, res) {
+    try {
+      const category = await prisma.category.findFirst({
+        where: { id: parseInt(req.params.id) },
+      });
+      return res.status(200).json({ status: "success", message: category });
+    } catch (error) {
+      return res.status(200).json({ status: "success", message: error });
+    }
+  }
+
   static async createCategory(req, res) {
     try {
       const category = await prisma.category.create({
