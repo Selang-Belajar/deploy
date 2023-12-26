@@ -15,6 +15,28 @@ model User {
   email      String   @unique
   name       String
   password   String
+  form       Form[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+model Roadmap {
+  id           Int         @id @default(autoincrement())
+  name         String
+  Categories   Categories? @relation(fields: [categoriesId], references: [id])
+  categoriesId Int?
+}
+
+model Categories {
+  id      Int       @id @default(autoincrement())
+  name    String
+  roadmap Roadmap[]
+}
+
+model Form {
+  id                Int    @id @default(autoincrement())
+  user_choices      String
+  suggestion_choice String
+  User              User?  @relation(fields: [userId], references: [id])
+  userId            Int?
 }
