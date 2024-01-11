@@ -11,6 +11,16 @@ const { validateLoginSchema, validateRegisterSchema } = userSchema;
 // use bcrypt
 const bcrypt = require("bcrypt");
 
+// use jsonwebtoken
+const jwt = require("jsonwebtoken");
+
+const {
+  JWT_SECRET,
+  JWT_SECRET_REFRESH_TOKEN,
+  JWT_ACCESS_TOKEN_EXPIRED,
+  JWT_REFRESH_TOKEN_EXPIRED,
+} = process.env;
+
 // make Class userController
 class userController {
   // make function asynchronus
@@ -41,10 +51,25 @@ class userController {
           .json({ status: "error", message: "password not match" });
       }
 
+      const { email } = req.body;
+
+      // make token jwt
+      const token = jwt.sign({ email }, JWT_SECRET, {
+        expiresIn: JWT_ACCESS_TOKEN_EXPIRED,
+      });
+
+      // make refresh token
+      const refresh_token = jwt.sign({ email }, JWT_SECRET_REFRESH_TOKEN, {
+        expiresIn: JWT_REFRESH_TOKEN_EXPIRED,
+      });
+
       // use json for API JSON return
       return res.status(200).json({
         status: "success",
-        message: "welcome",
+        data: {
+          token: token,
+          refresh_token: refresh_token,
+        },
       });
     } catch (error) {
       return res.status(400).json({ status: "error", message: error.issues });
