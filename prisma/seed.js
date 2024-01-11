@@ -8,7 +8,7 @@ const users = [
   {
     name: "atheo",
     email: "atheos810@gmail.com",
-    password: generateHash("admin"),
+    password: generateHash("adminselangbelajar"),
   },
   {
     name: "rangga",
