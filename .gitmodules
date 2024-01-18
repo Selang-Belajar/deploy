@@ -1,3 +1,3 @@
-[submodule "frontend-flutter-apps"]
-	path = frontend-flutter-apps
+[submodule "front-end-flutter"]
+	path = front-end-flutter
 	url = https://github.com/Selang-Belajar/frontend-flutter-apps.git
